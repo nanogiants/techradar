@@ -70,7 +70,7 @@ export const useContentfulData = () => {
   );
 
   const selectData = getEntries(contentfulQuery.data);
-  const technologies = selectData('entry') as ContentfulTechnology[];
+  const technologies = selectData('contentfulTechnology') as ContentfulTechnology[];
   const quadrants = selectData('quadrant') as ContentfulQuadrant[];
   const rings = selectData('ring') as ContentfulRing[];
   const teams = selectData('team') as ContentfulTeam[];
