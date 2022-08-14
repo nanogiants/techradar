@@ -219,8 +219,7 @@ export const getQuadrantPosition = (position: string) => {
 };
 
 export const getTechnologyQuadrant = (technology: ContentfulTechnology): number => {
-  const position = pathOr('', ['fields', 'quadrant', 'fields', 'position'], technology);
-  return getQuadrantPosition(position);
+  return pathOr(0, ['fields', 'quadrant', 'fields', 'position'], technology);
 };
 
 const getIcon = (item: ContentfulTechnology) => ({
@@ -300,7 +299,7 @@ export const getRadarQuadrants = (quadrants: ContentfulQuadrant[]) => {
       radarQuadrants.push({
         name: pathOr('', ['fields', 'label'], item),
         description: pathOr('', ['fields', 'description'], item),
-        position: getQuadrantPosition(pathOr('top-left', ['fields', 'position'], item)),
+        position: pathOr(0, ['fields', 'position'], item),
       }),
     quadrants
   );
