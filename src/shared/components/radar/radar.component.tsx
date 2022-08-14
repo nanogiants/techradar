@@ -88,11 +88,24 @@ export const Radar = ({
     ringLabelsContainer.attr('transform', translate({ x: radarSize / 2, y: Math.ceil(rings[3].radius) }));
     bubbleContainer.attr('transform', translate({ x: radarSize / 2, y: Math.ceil(rings[3].radius) }));
 
-    renderGrid({ radar, scale, rings });
-    const renderedSectors = renderQuadrantSectors({ rings, radar });
-    const renderedTechnologies = renderTechnologies({ radar, technologies, rings });
+    const q = quadrants.concat(...quadrants.slice(0, 2));
+    const t = technologies
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4))
+      .concat(...technologies.slice(0, 4));
+
+    renderGrid({ radar, scale, rings, quadrantCount: q.length });
+    const renderedSectors = renderQuadrantSectors({ rings, radar, quadrants: q });
+    const renderedTechnologies = renderTechnologies({ radar, technologies: t, rings, quadrants: q });
     const renderedRingLabels = renderRingLabels({ ringLabelsContainer, radarRings, rings, quadrants });
-    const renderedAreaLabels = renderAreaLabels({ quadrants, rings, areaLabelsContainer });
+    const renderedAreaLabels = renderAreaLabels({ quadrants: q, rings, areaLabelsContainer });
     renderBubble(bubbleContainer);
 
     setBlips(renderedTechnologies);

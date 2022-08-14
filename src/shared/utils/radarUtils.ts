@@ -56,9 +56,15 @@ export const bounded_interval = (value: number, min: number, max: number) => {
   return Math.min(Math.max(value, low), high);
 };
 
-export const bounded_ring = (polar: { t: number; r: number }, r_min: number, r_max: number) => {
+export const bounded_ring = (
+  polar: { t: number; r: number },
+  r_min: number,
+  r_max: number,
+  t_min: number,
+  t_max: number
+) => {
   return {
-    t: polar.t,
+    t: bounded_interval(polar.t, t_min, t_max),
     r: bounded_interval(polar.r, r_min, r_max),
   };
 };
