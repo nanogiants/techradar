@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import { Selection, select, forceSimulation, forceCollide } from 'd3';
+import { Selection, select, forceSimulation, forceCollide, arc, pie } from 'd3';
 import { color } from '../../../theme';
 import {
   bounded_box,
@@ -33,20 +33,38 @@ import {
 } from '../../utils/radarUtils';
 import { RadarQuadrant, RadarRing, RadarTechnology, Rings } from './radar.types';
 
-const quadrantsData = [
-  { radial_min: 0, radial_max: 0.5, factor_x: 1, factor_y: 1, position: -90, quadrant: 0 },
-  { radial_min: 0.5, radial_max: 1, factor_x: -1, factor_y: 1, position: 0, quadrant: 1 },
-  { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1, position: 90, quadrant: 2 },
-  { radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1, position: 180, quadrant: 3 },
-];
+const quadrantData = (count: number) => {
+  const isEven = count % 2 === 0;
+
+  return [...Array(count).keys()].map((i) => {
+    let factor_x = 0;
+
+    if (isEven) {
+      factor_x = i < count / 2 ? 1 : -1;
+    } else {
+      factor_x = i < count / 2 - 1 ? 1 : -1;
+
+      if (i === count / 2 - 1) {
+        factor_x = 0;
+      }
+    }
+
+    return {
+      factor_x,
+      position: (360.0 / count) * (i - 1),
+      quadrant: i,
+    };
+  });
+};
 
 type RenderGrid = {
   radar: Selection<SVGGElement, unknown, null, undefined>;
   scale: number;
   rings: Rings;
+  quadrantCount: number;
 };
 
-export const renderGrid = ({ radar, scale, rings }: RenderGrid) => {
+export const renderGrid = ({ radar, scale, rings, quadrantCount }: RenderGrid) => {
   const grid = radar.append('g');
 
   const defs = grid.append('defs');
@@ -70,22 +88,24 @@ export const renderGrid = ({ radar, scale, rings }: RenderGrid) => {
       .style('stroke-width', 2);
   }
 
-  grid
-    .append('line')
-    .attr('x1', 0)
-    .attr('y1', -450 * scale)
-    .attr('x2', 0)
-    .attr('y2', 450 * scale)
-    .style('stroke', color.mineShaft)
-    .style('stroke-width', 2);
-  grid
-    .append('line')
-    .attr('x1', -450 * scale)
-    .attr('y1', 0)
-    .attr('x2', 450 * scale)
-    .attr('y2', 0)
-    .style('stroke', color.mineShaft)
-    .style('stroke-width', 2);
+  const alpha = 360.0 / quadrantCount;
+  const radius = 450 * scale;
+
+  for (let i = 0; i < quadrantCount; i++) {
+    const x1 = radius * Math.sin((i * alpha * Math.PI) / 180);
+    const x2 = 0;
+    const y1 = -radius * Math.cos((i * alpha * Math.PI) / 180);
+    const y2 = 0;
+
+    grid
+      .append('line')
+      .attr('x1', x1)
+      .attr('y1', y1)
+      .attr('x2', x2)
+      .attr('y2', y2)
+      .style('stroke', color.mineShaft)
+      .style('stroke-width', 2);
+  }
 
   return grid;
 };
@@ -93,27 +113,39 @@ export const renderGrid = ({ radar, scale, rings }: RenderGrid) => {
 type RenderQuadrantSectors = {
   radar: Selection<SVGGElement, unknown, null, undefined>;
   rings: Rings;
+  quadrants: RadarQuadrant[];
 };
 
-export const renderQuadrantSectors = ({ radar, rings }: RenderQuadrantSectors) => {
+// still broken
+export const renderQuadrantSectors = ({ radar, rings, quadrants }: RenderQuadrantSectors) => {
   const quadrantsContainer = radar.append('g').attr('id', 'quadrants');
   const defs = radar.select('defs');
   const semiCircle = radar.select('defs').append('clipPath').attr('id', 'semi-circle');
+  // semiCircle
+  //   .append('rect')
+  //   .attr('x', -rings[3].radius)
+  //   .attr('y', 0)
+  //   .attr('width', rings[3].radius / 2)
+  //   .attr('height', rings[3].radius / 2);
   semiCircle
-    .append('rect')
-    .attr('x', -rings[3].radius)
+    .append('arc')
+    .attr('x', 0)
     .attr('y', 0)
-    .attr('width', rings[3].radius)
-    .attr('height', rings[3].radius);
+    .attr('innerRadius', 0)
+    .attr('outerRadius', rings[3].radius)
+    .attr('startAngle', 0)
+    .attr('endAngle', (2 * Math.PI) / quadrants.length);
+
+  console.log('hfdjsk', semiCircle);
 
   const conicGradient = defs.append('linearGradient').attr('id', 'conic-gradient');
   conicGradient.attr('x1', '0%').attr('y1', '100%').attr('x2', '100%').attr('y2', '0%');
-  conicGradient.append('stop').attr('offset', '0%').attr('stop-color', color.white20).attr('stop-opacity', 0.7);
+  conicGradient.append('stop').attr('offset', '0%').attr('stop-color', 'rgba(255, 0, 0, 1)').attr('stop-opacity', 0.9);
   conicGradient.append('stop').attr('offset', '100%').attr('stop-color', 'rgba(0, 0, 0, 0)').attr('stop-opacity', 1);
 
   const quadrantSectors = quadrantsContainer
     .selectAll('.quadrant-circle')
-    .data(quadrantsData)
+    .data(quadrantData(quadrants.length))
     .enter()
     .append('g')
     .attr('class', 'quadrant')
@@ -126,7 +158,7 @@ export const renderQuadrantSectors = ({ radar, rings }: RenderQuadrantSectors) =
     .attr('cy', 0)
     .attr('r', rings[3].radius)
     .attr('clip-path', 'url(#semi-circle)')
-    .attr('transform', (d) => `rotate(${d.position})`)
+    // .attr('transform', (d) => `rotate(${d.position})`)
     .attr('fill', 'url(#conic-gradient)');
 
   return quadrantSectors;
@@ -141,23 +173,27 @@ type RenderAreaLabels = {
 export const renderAreaLabels = ({ areaLabelsContainer, rings, quadrants }: RenderAreaLabels) => {
   const areaLabel = areaLabelsContainer
     .selectAll('.area-label')
-    .data(quadrantsData)
+    .data(quadrantData(quadrants.length))
     .enter()
     .append('g')
     .attr('class', 'area-label')
     .attr('id', (d) => `area-label-${d.quadrant}`);
+
+  const alpha = 360.0 / (quadrants.length * 2);
+  const radius = rings[3].radius;
+
   const getFactors = (i: number) => {
-    const factorX = quadrantsData[i].factor_x;
-    const factorY = quadrantsData[i].factor_y;
+    const isEven = quadrants.length % 2 === 1;
+    let align = i <= (quadrants.length - 2) / 2 ? 'start' : 'end';
+    if (isEven && i === (quadrants.length - 1) / 2) {
+      align = 'middle';
+    }
 
-    const factors = [
-      { x: factorX * rings[3].radius - 68, y: factorY * rings[3].radius - 150 },
-      { x: factorX * rings[3].radius - 75, y: factorY * rings[3].radius - 150 },
-      { x: factorX * rings[3].radius - 160, y: factorY * rings[3].radius + 150 },
-      { x: factorX * rings[3].radius - 75, y: factorY * rings[3].radius + 150 },
-    ];
-
-    return factors[i];
+    return {
+      x: radius * Math.sin(((2 * i + 1) * alpha * Math.PI) / 180),
+      y: -radius * Math.cos(((2 * i + 1) * alpha * Math.PI) / 180),
+      align,
+    };
   };
 
   const rect = areaLabel.append('rect').attr('rx', 15).attr('ry', 15);
@@ -165,18 +201,21 @@ export const renderAreaLabels = ({ areaLabelsContainer, rings, quadrants }: Rend
     .append('text')
     .attr('x', (d) => getFactors(d.quadrant).x)
     .attr('y', (d) => getFactors(d.quadrant).y)
-    .attr('text-anchor', 'left')
+    .attr('text-anchor', (d) => getFactors(d.quadrant).align)
     .style('font-family', 'Hellix')
     .style('font-size', '13px')
     .style('font-weight', 600)
     .style('letter-spacing', '0.2em')
-    .text((d) => quadrants[d.quadrant].name.toUpperCase());
+    .text((d) => quadrants[d.quadrant]?.name?.toUpperCase());
 
   const textNodes = text.nodes();
   const getSize = (index: number) => textNodes[index].getBBox();
 
   rect
-    .attr('x', (d) => getFactors(d.quadrant).x - 15)
+    .attr('x', (d) => {
+      const factors = getFactors(d.quadrant);
+      return factors.x - 15 - getSize(d.quadrant).width * 0.5 * ['start', 'middle', 'end'].indexOf(factors.align);
+    })
     .attr('y', (d) => getFactors(d.quadrant).y - getSize(d.quadrant).height - 6)
     .attr('width', (d) => getSize(d.quadrant).width + 30)
     .attr('height', 32);
@@ -212,45 +251,49 @@ type RenderTechnologies = {
   radar: Selection<SVGGElement, unknown, null, undefined>;
   technologies: RadarTechnology[];
   rings: Rings;
+  quadrants: RadarQuadrant[];
 };
 
-export const renderTechnologies = ({ radar, technologies, rings }: RenderTechnologies) => {
+export const renderTechnologies = ({ radar, technologies, rings, quadrants }: RenderTechnologies) => {
   function getSegment(quadrant: number, ring: number) {
-    const polar_min = {
-      t: quadrantsData[quadrant].radial_min * Math.PI,
-      r: ring === 0 ? 30 : rings[ring - 1].radius,
-    };
-    const polar_max = {
-      t: quadrantsData[quadrant].radial_max * Math.PI,
-      r: rings[ring].radius,
-    };
-    const cartesian_min = {
-      x: 15 * quadrantsData[quadrant].factor_x,
-      y: 15 * quadrantsData[quadrant].factor_y,
-    };
-    const cartesian_max = {
-      x: rings[3].radius * quadrantsData[quadrant].factor_x,
-      y: rings[3].radius * quadrantsData[quadrant].factor_y,
-    };
+    const singleSegment = (2 * Math.PI) / quadrants.length;
+    const halfSegment = singleSegment / 2;
+
+    const minAlpha = ((2 * Math.PI) / quadrants.length) * quadrant - singleSegment - halfSegment;
+    const maxAlpha = ((2 * Math.PI) / quadrants.length) * quadrant - singleSegment + halfSegment;
+    const alpha = random_between(minAlpha + singleSegment / 5, maxAlpha - singleSegment / 5);
+
+    const minRadius = ring === 0 ? 0 : rings[ring - 1].radius;
+    const maxRadius = rings[ring].radius;
+    const radius = normal_between(minRadius + 10, maxRadius - 35);
+
+    const point = cartesian({ r: radius, t: alpha });
 
     return {
       clipx: function (d: any) {
-        const c = bounded_box(d, cartesian_min, cartesian_max);
-        const p = bounded_ring(polar(c), polar_min.r + 10, polar_max.r - 35);
+        const p = bounded_ring(
+          polar(d),
+          minRadius + 10,
+          maxRadius - 35,
+          minAlpha + singleSegment / 10,
+          maxAlpha - singleSegment / 10
+        );
         d.x = cartesian(p).x;
         return d.x;
       },
       clipy: function (d: any) {
-        const c = bounded_box(d, cartesian_min, cartesian_max);
-        const p = bounded_ring(polar(c), polar_min.r + 10, polar_max.r - 35);
+        const p = bounded_ring(
+          polar(d),
+          minRadius + 10,
+          maxRadius - 35,
+          minAlpha + singleSegment / 10,
+          maxAlpha - singleSegment / 10
+        );
         d.y = cartesian(p).y;
         return d.y;
       },
       random: function () {
-        return cartesian({
-          t: random_between(polar_min.t, polar_max.t),
-          r: normal_between(polar_min.r, polar_max.r),
-        });
+        return point;
       },
     };
   }
@@ -260,8 +303,8 @@ export const renderTechnologies = ({ radar, technologies, rings }: RenderTechnol
     return { ...technology, segment, ...segment.random(), color: technology.inactive ? color.mineShaft : color.silver };
   });
 
-  const segmented = new Array(4);
-  for (let quadrant = 0; quadrant < 4; quadrant++) {
+  const segmented = new Array(quadrants.length);
+  for (let quadrant = 0; quadrant < quadrants.length; quadrant++) {
     segmented[quadrant] = new Array(4);
     for (let ring = 0; ring < 4; ring++) {
       segmented[quadrant][ring] = [];
@@ -281,7 +324,13 @@ export const renderTechnologies = ({ radar, technologies, rings }: RenderTechnol
     .append('g')
     .attr('class', 'blip')
     .attr('id', (d) => `blip-${d.id}`)
-    .style('cursor', (d) => (d.description ? 'pointer' : 'default'));
+    .style('cursor', (d) => (d.description ? 'pointer' : 'default'))
+    .attr('transform', (d) => {
+      const x = d.x;
+      const y = d.y;
+
+      return `translate(${x}, ${y})`;
+    });
 
   const blipsInner = blips.append('g').attr('class', 'blip-inner');
 
@@ -378,6 +427,8 @@ export const renderTechnologies = ({ radar, technologies, rings }: RenderTechnol
 };
 
 export const renderBubble = (bubbleContainer: Selection<SVGGElement, unknown, null, undefined>) => {
+  console.log('fhdukfhdjk');
+
   const bubble = bubbleContainer
     .append('g')
     .attr('id', 'bubble')
@@ -398,6 +449,8 @@ export const renderBubble = (bubbleContainer: Selection<SVGGElement, unknown, nu
 export const showTooltip = (target: Element, text: string, factorX: number, arrowTop?: number) => {
   const leftPlacement = factorX === 1;
   const { x, y, width, height } = target.getBoundingClientRect();
+
+  console.log('x,', x, y, target);
 
   const tooltipContainer = select('.tooltip-container')
     .classed('show', true)

@@ -88,9 +88,9 @@ export const Radar = ({
     ringLabelsContainer.attr('transform', translate({ x: radarSize / 2, y: Math.ceil(rings[3].radius) }));
     bubbleContainer.attr('transform', translate({ x: radarSize / 2, y: Math.ceil(rings[3].radius) }));
 
-    renderGrid({ radar, scale, rings });
-    const renderedSectors = renderQuadrantSectors({ rings, radar });
-    const renderedTechnologies = renderTechnologies({ radar, technologies, rings });
+    renderGrid({ radar, scale, rings, quadrantCount: quadrants.length });
+    const renderedSectors = renderQuadrantSectors({ rings, radar, quadrants });
+    const renderedTechnologies = renderTechnologies({ radar, technologies, rings, quadrants });
     const renderedRingLabels = renderRingLabels({ ringLabelsContainer, radarRings, rings, quadrants });
     const renderedAreaLabels = renderAreaLabels({ quadrants, rings, areaLabelsContainer });
     renderBubble(bubbleContainer);

@@ -56,9 +56,15 @@ export const bounded_interval = (value: number, min: number, max: number) => {
   return Math.min(Math.max(value, low), high);
 };
 
-export const bounded_ring = (polar: { t: number; r: number }, r_min: number, r_max: number) => {
+export const bounded_ring = (
+  polar: { t: number; r: number },
+  r_min: number,
+  r_max: number,
+  t_min: number,
+  t_max: number
+) => {
   return {
-    t: polar.t,
+    t: bounded_interval(polar.t, t_min, t_max),
     r: bounded_interval(polar.r, r_min, r_max),
   };
 };
@@ -213,8 +219,7 @@ export const getQuadrantPosition = (position: string) => {
 };
 
 export const getTechnologyQuadrant = (technology: ContentfulTechnology): number => {
-  const position = pathOr('', ['fields', 'quadrant', 'fields', 'position'], technology);
-  return getQuadrantPosition(position);
+  return pathOr(0, ['fields', 'quadrant', 'fields', 'position'], technology);
 };
 
 const getIcon = (item: ContentfulTechnology) => ({
@@ -294,7 +299,7 @@ export const getRadarQuadrants = (quadrants: ContentfulQuadrant[]) => {
       radarQuadrants.push({
         name: pathOr('', ['fields', 'label'], item),
         description: pathOr('', ['fields', 'description'], item),
-        position: getQuadrantPosition(pathOr('top-left', ['fields', 'position'], item)),
+        position: pathOr(0, ['fields', 'position'], item),
       }),
     quadrants
   );
