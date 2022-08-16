@@ -25,7 +25,7 @@ export const AppComponent = ({ children }: AppComponentProps) => {
     <IntlProvider key={language} locale={language} messages={translationMessages[language]}>
       <HelmetProvider>
         <Fragment>
-          <FormattedMessage defaultMessage="Apptension Tech Radar" description="App / Page title">
+          <FormattedMessage defaultMessage="NanoGiants Tech Radar" description="App / Page title">
             {([pageTitle]: [string]) => <Helmet titleTemplate={`%s - ${pageTitle}`} defaultTitle={pageTitle} />}
           </FormattedMessage>
 

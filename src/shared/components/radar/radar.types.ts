@@ -44,7 +44,7 @@ export type ContentfulRing = { fields: { label: string; position: RingPositions 
 
 export type ContentfulTeam = { fields: { label: string } };
 
-export type ContentfulQuadrant = { fields: { label: string; position: QuadrantPositions } };
+export type ContentfulQuadrant = { fields: { label: string; position: number } };
 
 export type ContentfulIcon = { fields: { file: { url: string }; description: string; name: string } };
 

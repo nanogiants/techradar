@@ -4,7 +4,7 @@ import { mediaQuery } from '../../../theme/media';
 import { transition } from '../../utils/constants';
 
 export const Container = styled.div`
-  background-color: ${color.mineShaft2};
+  background-color: ${color.nanogiantsDarkBlue};
   position: relative;
   padding: 24px 20px 109px;
   overflow: auto;

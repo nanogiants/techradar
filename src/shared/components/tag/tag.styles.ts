@@ -28,12 +28,12 @@ const tagVariantDefaultStyles = css`
 
 const tagVariantDarkStyles = css`
   background-color: ${color.mineShaft};
-  color: ${color.boulder};
+  color: ${color.white};
 `;
 
 const tagClickableStyles = css`
   :hover {
-    background-color: ${color.white};
+    //background-color: ${color.white};
   }
 `;
 

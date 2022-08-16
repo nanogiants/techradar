@@ -13,6 +13,6 @@ export default defineMessages({
   },
   backToMainPageButton: {
     id: 'home.backToMainPageButton',
-    defaultMessage: 'Back to apptension.com',
+    defaultMessage: 'Back to nanogiants.de',
   },
 });

@@ -7,6 +7,7 @@ import { BodyMedium, LabelMedium } from '../../../theme/typography';
 import { Tag as TagComponent } from '../tag';
 import { border, color } from '../../../theme';
 import { mediaQuery } from '../../../theme/media';
+import { nanogiantsDarkBlue } from '../../../theme/color';
 
 export const LABEL_HEIGHT = 26;
 export const LABEL_BOTTOM_MARGIN = 12;
@@ -22,7 +23,7 @@ export const Container = styled.div`
   min-width: 190px;
   position: relative;
   background: ${color.codGray};
-  border: ${border.boldWhite};
+  border: 2px solid ${color.nanogiantsDarkBlue};
   transition: background 0.25s ease-in-out;
   cursor: pointer;
 
@@ -137,7 +138,7 @@ export const Options = styled.div`
   bottom: 0;
   height: 100%;
   width: 100%;
-  border: ${border.boldWhite};
+  border: 2px solid ${color.nanogiantsDarkBlue};
   border-bottom: none;
   background: ${color.codGray};
   transform: translateY(100%);
@@ -162,7 +163,7 @@ export const Option = styled.li<{ active: boolean }>`
   display: flex;
   align-items: center;
   ${LabelMedium};
-  color: ${({ active }) => (active ? color.white : color.boulder)};
+  color: ${({ active }) => (active ? color.nanogiantsDarkRed : color.boulder)};
   margin-bottom: 12px;
   cursor: pointer;
 
@@ -176,7 +177,7 @@ export const Option = styled.li<{ active: boolean }>`
   }
 
   &:hover {
-    color: ${color.white};
+    color: ${color.nanogiantsDarkRed};
   }
 
   &:last-of-type {
