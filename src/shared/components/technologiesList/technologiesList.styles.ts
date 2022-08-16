@@ -40,12 +40,16 @@ export const ListItem = styled.li<{ showTechnology: boolean }>`
 `;
 
 export const ListLabel = styled.div<{ showPointer: boolean }>`
-  color: ${colors.boulder};
+  color: ${colors.nanogiantsDarkBlue};
   font-size: 18px;
   display: flex;
   align-items: center;
   cursor: ${({ showPointer }) => (showPointer ? 'pointer' : 'default')};
   flex-grow: 1;
+
+  &.hover {
+    color: green;
+  }
 `;
 
 export const ListItemTags = styled.div<{ visible: boolean }>`

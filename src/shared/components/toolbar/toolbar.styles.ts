@@ -5,7 +5,7 @@ import { Dropdown } from '../dropdown';
 import { mediaQuery } from '../../../theme/media';
 
 export const Container = styled.div`
-  background-color: ${color.codGray};
+  background-color: ${color.black};
   height: 60px;
   position: initial;
   bottom: initial;
@@ -22,6 +22,9 @@ export const Container = styled.div`
 `;
 
 export const ToolbarDropdown = styled(Dropdown)`
+  border-color: ${color.nanogiantsDarkBlue};
+  color: ${color.nanogiantsDarkBlue};
+
   .options-container {
     min-width: calc(100vw - 50px);
 

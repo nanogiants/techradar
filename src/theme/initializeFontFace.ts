@@ -1,16 +1,16 @@
 const fontFace = `
   @font-face{
-      font-family: 'Hellix';
+      font-family: 'SharpGroteskBook19';
       font-style: normal;
       font-weight: normal;
-      src: url('./fonts/Hellix-Medium.otf') format("opentype");
+      src: url('./fonts/SharpGroteskBook19.otf') format("opentype");
   }
-  
+
   @font-face{
-      font-family: 'Hellix';
+      font-family: 'SharpGroteskBook19';
       font-style: normal;
       font-weight: bold;
-      src: url('./fonts/Hellix-SemiBold.otf') format("opentype");
+      src: url('./fonts/SharpGroteskBook19.otf') format("opentype");
   }
 `;
 

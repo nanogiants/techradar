@@ -1,22 +1,22 @@
 @font-face {
-  font-family: 'Hellix';
+  font-family: 'SharpGroteskBook19';
   font-style: normal;
   font-weight: normal;
-  src: url('./fonts/Hellix-Medium.otf') format('opentype');
+  src: url('./fonts/SharpGroteskBook19.otf') format('opentype');
 }
 
 @font-face {
-  font-family: 'Hellix';
+  font-family: 'SharpGroteskBook19';
   font-style: normal;
   font-weight: bold;
-  src: url('./fonts/Hellix-SemiBold.otf') format('opentype');
+  src: url('./fonts/SharpGroteskBook19.otf') format('opentype');
 }
 
 .unsupported-page .container {
   width: 100%;
   height: 100vh;
   color: #ffffff;
-  font-family: 'Hellix', sans-serif;
+  font-family: 'SharpGroteskBook19', sans-serif;
   position: relative;
   background-color: #111111;
   background-image: url('../../../../images/clouds.png');

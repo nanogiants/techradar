@@ -16,7 +16,7 @@ export const InputComponent = styled.input`
   border: none;
   outline: none;
   width: 100%;
-  color: ${colors.white};
+  color: ${colors.nanogiantsBlue};
   padding: 1px 2px;
 
   ::placeholder {
@@ -30,5 +30,5 @@ export const SearchIcon = styled(SearchIconSVG)`
 
 export const InputUnderline = styled.div`
   height: 2px;
-  background: ${colors.gradient};
+  background: ${colors.nanogiantsDarkRed};
 `;

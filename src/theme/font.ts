@@ -1,5 +1,5 @@
 export const fontFamily = {
-  primary: 'Hellix',
+  primary: 'SharpGroteskBook19',
 };
 
 export const fontWeight = {

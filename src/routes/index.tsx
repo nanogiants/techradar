@@ -9,36 +9,30 @@ import { ROUTES } from './app.constants';
 //<-- IMPORT ROUTE -->
 
 // @ts-ignore
-const Home = asyncComponent(() => import('./home'), 'Home');
-// @ts-ignore
 const Explore = asyncComponent(() => import('./explore'), 'Explore');
-// @ts-ignore
-const NotFound = asyncComponent(() => import('./notFound'), 'NotFound');
 
 export default () => {
   return (
     <Switch>
       <App>
         <Switch>
-          <Route exact path={ROUTES.home}>
+          {/* <Route exact path={ROUTES.home}>
             <Home />
-          </Route>
+          </Route> */}
 
-          <Route exact path={ROUTES.explore}>
+          <Route exact path={ROUTES.home}>
             <Explore />
           </Route>
           {/* <-- INJECT ROUTE --> */}
 
-          <Route>
+          {/* <Route>
             <NotFound />
-          </Route>
+          </Route> */}
         </Switch>
       </App>
 
       <IntlProvider locale={DEFAULT_LOCALE} messages={translationMessages[DEFAULT_LOCALE]}>
-        <Route>
-          <NotFound />
-        </Route>
+        <Route>{/* <NotFound /> */}</Route>
       </IntlProvider>
     </Switch>
   );

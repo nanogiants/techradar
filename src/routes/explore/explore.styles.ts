@@ -15,6 +15,7 @@ export const Container = styled.div`
   height: 100%;
   position: relative;
   display: flex;
+  background-color: white;
 `;
 
 export const TitleTag = styled(TitleTagComponent)`
