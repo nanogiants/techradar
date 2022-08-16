@@ -163,7 +163,7 @@ export const Option = styled.li<{ active: boolean }>`
   display: flex;
   align-items: center;
   ${LabelMedium};
-  color: ${({ active }) => (active ? color.white : color.boulder)};
+  color: ${({ active }) => (active ? color.nanogiantsDarkRed : color.boulder)};
   margin-bottom: 12px;
   cursor: pointer;
 
