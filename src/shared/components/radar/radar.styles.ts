@@ -30,23 +30,23 @@ export const SVG = styled.svg`
 
     & > rect {
       transition: fill ${transition};
-      fill: ${color.mineShaft};
+      fill: ${color.silver};
     }
 
     & > text {
       transition: fill ${transition};
-      fill: ${color.scorpion};
+      fill: ${color.nanogiantsDarkBlue};
     }
 
     &:hover,
     &.active,
     &.selected {
       & > rect {
-        fill: ${color.silver};
+        fill: ${color.mineShaft};
       }
 
       & > text {
-        fill: ${color.mineShaft};
+        fill: ${color.scorpion};
       }
     }
 
@@ -75,7 +75,7 @@ export const SVG = styled.svg`
     .circle,
     .triangle,
     .diamond {
-      fill: ${color.mineShaft};
+      fill: ${color.nanogiantsDarkRed};
     }
   }
 
@@ -84,7 +84,7 @@ export const SVG = styled.svg`
     .square,
     .circle,
     .triangle {
-      fill: ${color.silver};
+      fill: ${color.nanogiantsBlue};
     }
   }
 
@@ -102,15 +102,15 @@ export const SVG = styled.svg`
     .square,
     .circle,
     .triangle {
-      fill: url(#mainGradient);
+      fill: url(#nanogiantsBlue);
     }
 
     .diamond {
-      fill: url(#diamondMainGradient);
+      fill: url(#nanogiantsBlue);
     }
 
     .outer {
-      opacity: 0.3;
+      opacity: 0.95;
     }
 
     .blip-inner {
@@ -123,17 +123,17 @@ export const SVG = styled.svg`
   }
 
   .ring-label {
-    fill: ${color.boulder};
-    opacity: 1;
-    transition: opacity ${transition} ${tooltipDelay}, fill ${transition} ${tooltipDelay};
+    fill: ${color.nanogiantsDarkBlue};
+    transition: fill ${transition} ${tooltipDelay};
 
     &.active:not(.not-hovered) {
-      fill: ${color.white};
-      transition: opacity ${transition}, fill ${transition};
+      fill: ${color.nanogiantsDarkRed};
+      transition: fill ${transition};
+      font-weight: 600;
     }
 
     &:hover {
-      fill: ${color.white};
+      fill: ${color.nanogiantsDarkRed};
     }
   }
 `;

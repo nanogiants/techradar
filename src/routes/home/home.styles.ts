@@ -5,17 +5,19 @@ import { Header as HeaderComponent } from '../../shared/components/header';
 import { TitleTag as TitleTagComponent } from '../../shared/components/titleTag';
 import { LastUpdateInfo as LastUpdateInfoComponent } from '../../shared/components/lastUpdateInfo';
 import { mediaQuery } from '../../theme/media';
-import { zIndex } from '../../theme';
+import { color, zIndex } from '../../theme';
 
 export const Container = styled.div`
   height: 100%;
   width: 100%;
   position: relative;
+  background-color: white;
 `;
 
 export const Header = styled(HeaderComponent)`
   display: flex;
   justify-content: center;
+  background-color: ${color.white};
 
   ${mediaQuery.desktop} {
     justify-content: space-between;
@@ -37,6 +39,7 @@ export const Content = styled.div`
   padding-top: 110px;
   max-width: 1500px;
   margin: 0 auto;
+  background-color: ${color.white} !important;
 `;
 
 export const TextContent = styled.div`

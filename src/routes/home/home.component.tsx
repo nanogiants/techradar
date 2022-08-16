@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { Logo } from '../../shared/components/logo';
 import RadarImg from '../../images/radar.png';
 import RadarMobileImg from '../../images/radar-mobile.png';
-import { Background } from '../../shared/components/background';
 import { RadarHomeAnimation } from '../../shared/components/radarHomeAnimation';
 import { ROUTES } from '../app.constants';
 import { ButtonIcon, ButtonSize } from '../../shared/components/button/button.types';
@@ -56,19 +55,18 @@ export const Home = () => {
 
   return (
     <Container>
-      <Background />
       <Header>
         <LogoWrapper>
           {isDesktop ? (
             <Logo />
           ) : (
-            <Link to="https://apptension.com" withBorder={false}>
+            <Link to="https://nanogiants.de" withBorder={false}>
               <Logo full={false} />
             </Link>
           )}
         </LogoWrapper>
         {isDesktop && (
-          <Link to="https://apptension.com" icon={ButtonIcon.OUT}>
+          <Link to="https://nanogiants.de" icon={ButtonIcon.OUT}>
             <FormattedMessage {...messages.backToMainPageButton} />
           </Link>
         )}

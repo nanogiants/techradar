@@ -1,14 +1,13 @@
-![Apptension Tech Radar](./public/images/og_image.png)
+![NanoGiants Tech Radar](./images/radar_tech.png)
 
 ## Overview
 
-Bootstrapped with [Create React App (by Apptension)](https://github.com/apptension/react-scripts-apptension).
+This is the NanoGiants Tech Radar. The Tech Radar is a tool to support production teams at NanoGiants in presenting in front of the clients and candidates what technologies, tools, and methods they use internally. It also allows to pick the best stacks for our future projects based on shared experience levels and trends we pursue.
 
-The Tech Radar is a tool to support production teams at Apptension in presenting in front of the clients and candidates what technologies, tools, and methods they use internally. It also allows to pick the best stacks for our future projects based on shared experience levels and trends we pursue.
+This is a fork of the Apptension Tech Radar with some modifications that are listed below. Thanks for the great work [Apptension](https://github.com/apptension) ❤️.
 
-![Filtered Radar](./images/radar.png)
-
-![Technology Details](./images/radar_tech.png)
+- Support arbitrary number of quadrants (currently 6)
+- NanoGiants CI (Coprprate Identity)
 
 ## What is the Tech Radar?
 
@@ -24,15 +23,15 @@ The Tech Radar is a list of technologies along with their assessment result pres
 
 ## Features
 
-- Technical Radar with technologies in 4 categories and 4 adoption levels
+- Technical Radar with technologies in 6 categories and 4 adoption levels
 - Search to filter out elements on the radar
 - Filtering by adoption levels and teams who use specific technologies/tools
-- Details view with logo, description, alternatives and links
+- Details view with logo, description, alternatives and links if available
 - Mobile support
 
 ## Data source
 
-Apptension Tech Radar uses Contentful CMS for data storage and will not work locally right from the start as required keys are not provided in the source code.
+NanoGiants Tech Radar uses Contentful CMS for data storage and will not work locally right from the start as required keys are not provided in the source code.
 
 To connect your own Contentful space see `.env.example` file for required keys and `src/shared/hooks/useContentfulData.ts` along with `src/shared/services/api/contentful.ts` to see how we pull Contentful data currently.
 
@@ -133,6 +132,7 @@ yarn plop component
 ## Licence
 
 © 2022 Apptension Sp. z o.o.
+© 2022 NanoGiants GmbH
 
 Built and maintained by Apptension.
 

@@ -70,9 +70,9 @@ interface ContainerProps extends ThemeProps<ButtonTheme> {
 
 export const Container = styled.button<ContainerProps>`
   position: relative;
-  border: ${border.regularWhite};
+  border: 2px solid ${color.nanogiantsDarkRed};
   background: none;
-  color: ${color.white};
+  color: ${color.nanogiantsDarkRed};
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -103,13 +103,13 @@ export const Container = styled.button<ContainerProps>`
     left: -1px;
     z-index: -1;
     border-radius: 2px;
-    background: ${color.gradient};
+    background: ${color.nanogiantsDarkRed};
     opacity: 0;
     transition: opacity 0.25s ease-in-out;
   }
 
   &:hover {
-    color: ${color.black};
+    color: ${color.white};
     border-color: transparent;
 
     &::before {
@@ -121,7 +121,7 @@ export const Container = styled.button<ContainerProps>`
     }
 
     ${IconContainerInner} ${Icon}:last-of-type path {
-      stroke: ${({ withMovingArrow }) => (withMovingArrow ? `${color.white}` : `${color.black}`)};
+      stroke: ${({ withMovingArrow }) => (withMovingArrow ? `${color.nanogiantsDarkRed}` : `${color.white}`)};
     }
   }
 `;

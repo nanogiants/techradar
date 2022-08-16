@@ -75,7 +75,11 @@ export const renderGrid = ({ radar, scale, rings, quadrantCount }: RenderGrid) =
   const ringGradient = defs.append('radialGradient').attr('id', 'ringGradient');
   ringGradient.append('stop').attr('offset', '60%').attr('stop-color', 'transparent').attr('stop-opacity', 1);
   ringGradient.append('stop').attr('offset', '85%').attr('stop-color', 'transparent').attr('stop-opacity', 0.8);
-  ringGradient.append('stop').attr('offset', '100%').attr('stop-color', color.tundora).attr('stop-opacity', 0.2);
+  ringGradient
+    .append('stop')
+    .attr('offset', '100%')
+    .attr('stop-color', color.nanogiantsBlue)
+    .attr('stop-opacity', 0.05);
 
   for (let i = 0; i < rings.length; i++) {
     grid
@@ -202,7 +206,7 @@ export const renderAreaLabels = ({ areaLabelsContainer, rings, quadrants }: Rend
     .attr('x', (d) => getFactors(d.quadrant).x)
     .attr('y', (d) => getFactors(d.quadrant).y)
     .attr('text-anchor', (d) => getFactors(d.quadrant).align)
-    .style('font-family', 'Hellix')
+    .style('font-family', 'SharpGroteskBook19')
     .style('font-size', '13px')
     .style('font-weight', 600)
     .style('letter-spacing', '0.2em')
@@ -243,7 +247,8 @@ export const renderRingLabels = ({ ringLabelsContainer, rings, radarRings }: Ren
     .attr('y', (d) => -d.radius + 21)
     .attr('x', 7)
     .attr('text-anchor', 'left')
-    .style('font-family', 'Hellix')
+    .style('font-family', 'SharpGroteskBook19')
+    .style('color', color.nanogiantsDarkBlue)
     .style('font-size', 14);
 };
 
@@ -341,25 +346,32 @@ export const renderTechnologies = ({ radar, technologies, rings, quadrants }: Re
     const blipDefs = blip.append('defs');
 
     const mainGradient = blipDefs.append('linearGradient').attr('id', 'mainGradient');
-    mainGradient.append('stop').attr('offset', '0%').attr('stop-color', color.schoolBusYellow).attr('stop-opacity', 1);
-    mainGradient.append('stop').attr('offset', '100%').attr('stop-color', color.screaminGreen).attr('stop-opacity', 1);
+    mainGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', color.nanogiantsDarkRed)
+      .attr('stop-opacity', 1);
+    mainGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', color.nanogiantsDarkRed)
+      .attr('stop-opacity', 1);
 
     const diamondMainGradient = blipDefs.append('linearGradient').attr('id', 'diamondMainGradient');
     diamondMainGradient.attr('x1', '0%').attr('y1', '100%').attr('x2', '100%').attr('y2', '0%');
     diamondMainGradient
       .append('stop')
       .attr('offset', '0%')
-      .attr('stop-color', color.schoolBusYellow)
+      .attr('stop-color', color.nanogiantsDarkRed)
       .attr('stop-opacity', 1);
     diamondMainGradient
       .append('stop')
       .attr('offset', '100%')
-      .attr('stop-color', color.screaminGreen)
+      .attr('stop-color', color.nanogiantsDarkRed)
       .attr('stop-opacity', 1);
 
     if (d.ring === 0) {
-      blip.append('circle').classed('outer', true).attr('r', 9).attr('fill', 'url(#mainGradient)');
-
+      blip.append('circle').classed('outer', true).attr('r', 9).attr('fill', color.nanogiantsDarkRed);
       blip.append('circle').classed('circle', true).attr('r', 4.5);
     } else if (d.ring === 1) {
       blip
@@ -370,7 +382,7 @@ export const renderTechnologies = ({ radar, technologies, rings, quadrants }: Re
         .attr('width', 14.8)
         .attr('height', 14.8)
         .attr('transform', 'rotate(45)')
-        .attr('fill', 'url(#diamondMainGradient)');
+        .attr('fill', color.nanogiantsDarkRed);
 
       blip
         .append('rect')
@@ -437,13 +449,13 @@ export const renderBubble = (bubbleContainer: Selection<SVGGElement, unknown, nu
     .style('opacity', 0)
     .style('pointer-events', 'none')
     .style('user-select', 'none');
-  bubble.append('rect').attr('rx', 6).attr('ry', 6).style('fill', color.codGray);
+  bubble.append('rect').attr('rx', 6).attr('ry', 6).style('fill', color.black);
   bubble
     .append('text')
-    .style('font-family', 'Hellix')
+    .style('font-family', 'SharpGroteskBook19')
     .style('font-size', '12px')
-    .style('font-weight', '600')
-    .style('fill', color.silver);
+    .style('font-weight', '700')
+    .style('fill', color.nanogiantsDarkRed);
 };
 
 export const showTooltip = (target: Element, text: string, factorX: number, arrowTop?: number) => {

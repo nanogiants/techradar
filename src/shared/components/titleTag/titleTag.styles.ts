@@ -13,6 +13,7 @@ const titleSmallStyles = css`
 `;
 
 export const Title = styled(H1)`
+  color: ${color.mineShaft};
   ${theme('size', {
     [TitleTagSize.SMALL]: titleSmallStyles,
   })};
@@ -48,7 +49,8 @@ export const VersionTag = styled(VersionTagComponent)<VersionTagProps>`
   margin-left: 16px;
   padding-top: ${({ size }) => (size === TitleTagSize.LARGE ? '7px' : '6px')};
   padding-right: ${({ size }) => (size === TitleTagSize.LARGE ? '12px' : '10px')};
-  background: ${color.gradient};
+  background: ${color.nanogiantsDarkRed};
+  color: ${color.white};
 `;
 
 export const Logo = styled(LogoComponent)`
